@@ -3,13 +3,14 @@
 package app
 
 import "github.com/cookiengineer/gooey/pkg/dom"
+import "github.com/cookiengineer/gooey-components/pkg/interfaces"
 
 type Main struct {
-	Element *dom.Element     `json:"element"`
-	Client  *Client          `json:"client"`
-	Storage *Storage         `json:"storage"`
-	View    View             `json:"view"`
-	Views   map[string]View  `json:"views"`
+	Element *dom.Element               `json:"element"`
+	Client  *Client                    `json:"client"`
+	Storage *Storage                   `json:"storage"`
+	View    interfaces.View            `json:"view"`
+	Views   map[string]interfaces.View `json:"views"`
 }
 
 func (main *Main) Init(element *dom.Element) {
@@ -21,11 +22,11 @@ func (main *Main) Init(element *dom.Element) {
 	main.Client  = &client
 	main.Storage = &storage
 	main.View    = nil
-	main.Views   = make(map[string]View)
+	main.Views   = make(map[string]interfaces.View)
 
 }
 
-func (main *Main) SetView(name string, view View) {
+func (main *Main) SetView(name string, view interfaces.View) {
 
 	main.Views[name] = view
 

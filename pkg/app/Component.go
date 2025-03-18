@@ -1,7 +1,32 @@
+//go:build wasm
+
 package app
+
+import gooey "github.com/cookiengineer/gooey/pkg"
+import "github.com/cookiengineer/gooey/pkg/dom"
+import "strings"
 
 type Component struct {
 	listeners map[string][]*ComponentListener `json:"listeners"`
+	Id        string                          `json:"id"`
+	Element   *dom.Element                    `json:"element"`
+}
+
+func ToComponent(id, element *dom.Element) Component {
+
+	var component Component
+
+	component.Id      = id
+	component.listeners = make(map[string][]*ComponentListener, 0)
+
+	if element != nil {
+		component.Element = element
+	} else {
+		component.Element = gooey.Document.CreateElement("gooey-component")
+	}
+
+	return component
+
 }
 
 func (component *Component) InitEvent(event string) {
@@ -110,6 +135,30 @@ func (component *Component) RemoveEventListener(event string, listener *Componen
 
 }
 
+func (component *Component) AppendTo(parent *dom.Element) {
+
+	if parent != nil && component.Element != nil {
+
+		if component.Element.ParentNode() == nil {
+			parent.Append(component.Element)
+		}
+
+	}
+
+}
+
+func (component *Component) PrependTo(parent *dom.Element) {
+
+	if parent != nil && component.Element != nil {
+
+		if component.Element.ParentNode() == nil {
+			parent.Prepend(component.Element)
+		}
+
+	}
+
+}
+
 func (component *Component) Render() string {
-	return "<component></component>"
+	return ""
 }

@@ -37,8 +37,28 @@ func (component *Component) AddEventListener(event string, listener ComponentLis
 	_, ok := component.listeners[event]
 
 	if ok == true {
-		component.listeners[event] = append(component.listeners[event], &listener)
-		result = true
+
+		if event == "click" || event == "change" {
+
+			if component.Element != nil {
+
+				wrapped_listener := dom.ToEventListener(func(_ dom.Event) {
+					component.FireEventListeners(event)
+				})
+
+				component.Element.AddEventListener(dom.EventType(event), wrapped_listener)
+				listener.Listener = &wrapped_listener
+
+			}
+
+			component.listeners[event] = append(component.listeners[event], &listener)
+			result = true
+
+		} else {
+			component.listeners[event] = append(component.listeners[event], &listener)
+			result = true
+		}
+
 	}
 
 	return result
@@ -58,8 +78,7 @@ func (component *Component) FireEventListeners(event string) bool {
 		for l := 0; l < len(listeners); l++ {
 
 			listener := listeners[l]
-
-			listener.Callback()
+			listener.Callback(event)
 
 			if listener.Once == true {
 				indexes = append(indexes, l)
@@ -105,8 +124,16 @@ func (component *Component) RemoveEventListener(event string, listener *Componen
 			}
 
 			if index != -1 {
+
+				listener := component.listeners[event][index]
+
+				if component.Element != nil && listener.Listener != nil {
+					component.Element.RemoveEventListener(dom.EventType(event), listener.Listener)
+				}
+
 				component.listeners[event] = append(component.listeners[event][:index], component.listeners[event][index+1:]...)
 				result = true
+
 			}
 
 		}
@@ -116,8 +143,14 @@ func (component *Component) RemoveEventListener(event string, listener *Componen
 		_, ok := component.listeners[event]
 
 		if ok == true {
+
+			if component.Element != nil {
+				component.Element.RemoveEventListener(dom.EventType(event), nil)
+			}
+
 			component.listeners[event] = make([]*ComponentListener, 0)
 			result = true
+
 		}
 
 	}
@@ -128,4 +161,8 @@ func (component *Component) RemoveEventListener(event string, listener *Componen
 
 func (component *Component) Render() {
 	// Render into dom Element
+}
+
+func (component *Component) String() string {
+	return ""
 }

@@ -41,13 +41,33 @@ Web Components to structure a Web Application that uses a local Web View for its
 
 # WebView WebASM Architecture
 
-- [app.Main](/source/app/Main.go)
-- [app.Client](/source/app/Client.go)
-- [app.ClientListener](/source/app/ClientListener.go)
-- [app.Storage](/source/app/Storage.go)
-- [app.View](/source/app/View.go) interface
-- [app.BaseView](/source/app/BaseView.go) class
+- [app.Main](/pkg/app/Main.go)
+- [app.Client](/pkg/app/Client.go)
+- [app.ClientListener](/pkg/app/ClientListener.go)
+- [app.Storage](/pkg/app/Storage.go)
+- [app.View](/pkg/app/View.go)
 
+# WebView WebASM Interfaces
+
+- [interfaces.Component](/pkg/interfaces/Component.go)
+- [interfaces.View](/pkg/interfaces/View.go)
+
+# WebView WebASM Components
+
+- [x] [components.Button](/pkg/components/Button.go)
+- [x] [components.Label](/pkg/components/Label.go)
+
+**Layout Components**
+
+- [ ] [components.Footer](/pkg/components/Footer.go)
+- [ ] [components.Header](/pkg/components/Header.go)
+- [ ] [components.Aside](/pkg/components/Aside.go)
+
+**Content Components**
+
+- [ ] [components.Article](/pkg/components/Article.go)
+- [ ] [components.Fieldset](/pkg/components/Fieldset.go)
+- [ ] [components.Table](/pkg/components/Table.go)
 
 ## Work-in-Progress
 

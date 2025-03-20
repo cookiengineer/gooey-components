@@ -3,5 +3,6 @@
 package interfaces
 
 type Component interface {
-	Render() string
+	Render()
+	String() string
 }

@@ -1,22 +1,15 @@
-//go:build wasm
-
-package app
+package components
 
 import gooey "github.com/cookiengineer/gooey/pkg"
 import "github.com/cookiengineer/gooey/pkg/dom"
-import "strings"
 
 type Component struct {
 	listeners map[string][]*ComponentListener `json:"listeners"`
-	Id        string                          `json:"id"`
 	Element   *dom.Element                    `json:"element"`
 }
 
-func ToComponent(id, element *dom.Element) Component {
+func (component *Component) Init(element *dom.Element) {
 
-	var component Component
-
-	component.Id      = id
 	component.listeners = make(map[string][]*ComponentListener, 0)
 
 	if element != nil {
@@ -25,8 +18,6 @@ func ToComponent(id, element *dom.Element) Component {
 		component.Element = gooey.Document.CreateElement("gooey-component")
 	}
 
-	return component
-
 }
 
 func (component *Component) InitEvent(event string) {
@@ -34,7 +25,7 @@ func (component *Component) InitEvent(event string) {
 	_, ok := component.listeners[event]
 
 	if ok == false {
-		component.listeners[event] = make([]*Listener, 0)
+		component.listeners[event] = make([]*ComponentListener, 0)
 	}
 
 }
@@ -135,30 +126,6 @@ func (component *Component) RemoveEventListener(event string, listener *Componen
 
 }
 
-func (component *Component) AppendTo(parent *dom.Element) {
-
-	if parent != nil && component.Element != nil {
-
-		if component.Element.ParentNode() == nil {
-			parent.Append(component.Element)
-		}
-
-	}
-
-}
-
-func (component *Component) PrependTo(parent *dom.Element) {
-
-	if parent != nil && component.Element != nil {
-
-		if component.Element.ParentNode() == nil {
-			parent.Prepend(component.Element)
-		}
-
-	}
-
-}
-
-func (component *Component) Render() string {
-	return ""
+func (component *Component) Render() {
+	// Render into dom Element
 }
